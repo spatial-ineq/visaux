@@ -13,7 +13,7 @@
 #'
 #' Currently doesn't work with non-coterminous polys, but may add that later.
 #'
-#' @param subset.approach spatial filter approach. Intersection or cropping to bbox.
+#' @param subset.approach spatial filter approach; one of "intersects" or "crop". Intersection or cropping to bbox.
 #'
 flexible.spatial.filter <- function(x, polys,
                                     subset.approach = c("intersects", "crop"), ...) {
@@ -26,7 +26,7 @@ flexible.spatial.filter <- function(x, polys,
   if(subset.approach[1] == "intersects") {
     .geo.type <- st_geometry_type(x$geometry) %>% as.character()
 
-    if(grepl("POINT", .geo.type))
+    if(any(grepl("POINT", .geo.type)))
       sbgp <- st_intersects(polys,
                             x )
     else
@@ -129,9 +129,12 @@ parks.wrapper <- function(x = NULL, statefps = NULL, ...) {
   }
 
   parks <- map_dfr(statefps,
-                   ~tigris::landmarks(type = "area")
+                   ~tigris::landmarks(.x, type = "area")
   )
-  parks <- parks[grepl('Park|Cmtry', parks$FULLNAME),]
+
+  colnames(parks) <- tolower(colnames(parks))
+
+  parks <- parks[grepl('Park|Cmtry', parks$fullname),]
 
   parks <- st_crop(x, parks)
 

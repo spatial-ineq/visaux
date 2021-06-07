@@ -12,7 +12,7 @@ flexible.spatial.filter(
 )
 }
 \arguments{
-\item{subset.approach}{spatial filter approach. Intersection or cropping to bbox.}
+\item{subset.approach}{spatial filter approach; one of "intersects" or "crop". Intersection or cropping to bbox.}
 }
 \description{
 The flow is: given a spatial layer, can query counties with county_subset, a thin

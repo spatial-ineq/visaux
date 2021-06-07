@@ -15,7 +15,7 @@ county.subset(x, cos = NULL, ...)
 \item{...}{
   Arguments passed on to \code{\link[=flexible.spatial.filter]{flexible.spatial.filter}}
   \describe{
-    \item{\code{subset.approach}}{spatial filter approach. Intersection or cropping to bbox.}
+    \item{\code{subset.approach}}{spatial filter approach; one of "intersects" or "crop". Intersection or cropping to bbox.}
   }}
 }
 \description{
