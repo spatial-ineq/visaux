@@ -23,6 +23,12 @@ than default labels from \code{cut}}
 \description{
 Bins a sequential variable based on value ranges. It can often make visualizations
 easier to look at by allowing more striking differences and keeping outliers from
+<<<<<<< HEAD
 dominating the color scale. Wraps \code{get_breaks} and \code{bin_from_breaks}, which can
+=======
+dominating the color scale. Can return formatted values if
+\code{use_labels} is TRUE. the highlight_top parameter ensures a separate bin for
+top 1\% The function wraps \code{get_breaks} and \code{bin_from_breaks}, which can
+>>>>>>> 58437a6b6fc3a89038bd791a87e9256b88b2f752
 also be used separately
 }
