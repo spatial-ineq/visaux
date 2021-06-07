@@ -61,7 +61,7 @@ county.subset <- function(x, cos = NULL, ...) {
 
   x <- st_sf(x)
 
-  flexible.spatial.filter(x, polys, ...)
+  cos <- flexible.spatial.filter(x, cos, ...)
 
   colnames(cos) <-
     tolower(colnames(cos))
