@@ -2,9 +2,9 @@
 % Please edit documentation in R/tigris fcns.R
 \name{county.subset}
 \alias{county.subset}
-\title{functions that interface with the \code{tigris} library to query layers.}
+\title{county.subset}
 \usage{
-county.subset(x, cos = NULL, spatial.filter = c("intersects", "crop"), ...)
+county.subset(x, cos = NULL, ...)
 }
 \arguments{
 \item{x}{\code{sf} object}
@@ -12,16 +12,13 @@ county.subset(x, cos = NULL, spatial.filter = c("intersects", "crop"), ...)
 \item{cos}{counties sf object. If none supplied, they are downloaded using
 \code{tigris} library}
 
-\item{spatial.filter}{spatial filter approach. Intersection or cropping to bbox.}
-
-\item{...}{passed onto \code{tigris::counties}}
+\item{...}{
+  Arguments passed on to \code{\link[=flexible.spatial.filter]{flexible.spatial.filter}}
+  \describe{
+    \item{\code{subset.approach}}{spatial filter approach. Intersection or cropping to bbox.}
+  }}
 }
 \description{
-The flow is: given a spatial layer, can query counties with county_subset, a thin
-wrapper. Then other thin wrappers will call
-county.subset
-}
-\details{
 Given an \code{sf} object, get all counties that intersect. The spatial filter will
 adapt based on input, but can be thrown off when \code{x} isn't coterminous with
 counties. In this case the function \code{xwalks::get.spatial.overlap} can be helpful.

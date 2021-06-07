@@ -3,6 +3,44 @@
 #' The flow is: given a spatial layer, can query counties with county_subset, a thin
 #' wrapper. Then other thin wrappers will call
 
+
+#' flexible.spatial.filter
+#'
+#' Helper fcn that guesses appropriate spatial filter for subsetting polygons that
+#' overlap with another sf object `x`, based on x's geometry type. If `x` contains
+#' points, other polygon layer is subsetted with `st_intersects`; if `x` is polygons,
+#' the other polygon is converted to points with `st_points_on_surface` first.
+#'
+#' Currently doesn't work with non-coterminous polys, but may add that later.
+#'
+#' @param subset.approach spatial filter approach. Intersection or cropping to bbox.
+#'
+flexible.spatial.filter <- function(x, polys,
+                                    subset.approach = c("intersects", "crop"), ...) {
+
+  require(sf)
+
+  polys <- st_transform(polys, st_crs(x))
+
+  # use geometry type to determine spatial filter, if none supplied
+  if(subset.approach[1] == "intersects") {
+    .geo.type <- st_geometry_type(x$geometry) %>% as.character()
+
+    if(grepl("POINT", .geo.type))
+      sbgp <- st_intersects(polys,
+                            x )
+    else
+      sbgp <- st_intersects(st_point_on_surface(polys),
+                            x )
+
+    polys <- polys[lengths(sbgp) > 0, ]
+  } else if(subset.approach[1] == "crop") {
+    polys <- st_crop(polys, x)
+  }
+  return(polys)
+
+}
+
 #' county.subset
 #'
 #' Given an `sf` object, get all counties that intersect. The spatial filter will
@@ -12,32 +50,19 @@
 #' @param x `sf` object
 #' @param cos counties sf object. If none supplied, they are downloaded using
 #'   `tigris` library
-#' @param spatial.filter spatial filter approach. Intersection or cropping to bbox.
-#' @param ... passed onto `tigris::counties`
+#' @inheritDotParams flexible.spatial.filter
+#' @param ... other arguments passed onto `tigris::counties`
 #'
 #' @export county.subset
-county.subset <- function(x, cos = NULL, spatial.filter = c("intersects", "crop"), ...) {
+county.subset <- function(x, cos = NULL, ...) {
 
   if(is.null(cos))
     cos <- tigris::counties(...)
 
   x <- st_sf(x)
-  cos <- cos %>% st_sf() %>% st_transform(st_crs(x))
 
-  # use geometry type to determine spatial filter, if none supplied
-  if(spatial.filter[1] == "intersects") {
-    geo.type <- st_geometry_type(x$geometry) %>% as.character()
-    if(grepl("POINT", geo.type))
-      sbgp <- st_intersects(cos,
-                            x )
-    else
-      sbgp <- st_intersects(st_point_on_surface(cos),
-                            x )
+  flexible.spatial.filter(x, polys, ...)
 
-    cos <- cos[lengths(sbgp) > 0, ]
-  } else if(spatial.filter[1] == "crop") {
-    cos <- st_crop(cos, x)
-  }
   colnames(cos) <-
     tolower(colnames(cos))
 
@@ -92,10 +117,13 @@ water.wrapper <- function(countyfps = NULL, x = NULL, size.min = 5e6, ...) {
 
 #' parks.wrapper
 #'
+#' @param x object to derive overlapping statefps from, if statefps is left as null. Aiddtional
+#' @param statefps statefps to get parks for
 #'
-parks.wrapper <- function(x, statefps = NULL, ...) {
+#' @export parks.wrapper
+parks.wrapper <- function(x = NULL, statefps = NULL, ...) {
 
-  if(statefps(cos)) {
+  if(!is.null(statefps)) {
     cos <- county.subset(x, ...)
     statefps <- cos$statefp
   }
@@ -104,5 +132,8 @@ parks.wrapper <- function(x, statefps = NULL, ...) {
                    ~tigris::landmarks(type = "area")
   )
   parks <- parks[grepl('Park|Cmtry', parks$FULLNAME),]
+
+  parks <- st_crop(x, parks)
+
   return(parks)
 }

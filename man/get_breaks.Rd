@@ -15,7 +15,7 @@ get_breaks(x, n_breaks = 6, highlight_top_percent = F, ...)
 1\\%. Helpful to break out upper outliers.}
 }
 \description{
-this function bins a seqential variable based on value ranges. It can often
+bins a seqential variable based on value ranges. It can often
 make visualisations easier to look at by allowing more striking differences
 and keeping extremes from dominating the color scale. the highlight_top
 parameter ensures a separate bin for top 1\%. This is called from
