@@ -37,7 +37,7 @@ format_as.numeric <- function(x) {
 #' @inheritParams bin.var_format
 #' @param n_breaks target number of breaks for x
 #' @param highlight_top_percent Whether to break out an additional bin for the top
-#'   1\%. Helpful to break out upper outliers.
+#'   1%. Helpful to break out upper outliers.
 #'
 #' @export get_breaks
 get_breaks <- function(x, n_breaks = 6, highlight_top_percent = F, ...) {

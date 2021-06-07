@@ -12,7 +12,7 @@ get_breaks(x, n_breaks = 6, highlight_top_percent = F, ...)
 \item{n_breaks}{target number of breaks for x}
 
 \item{highlight_top_percent}{Whether to break out an additional bin for the top
-1\\%. Helpful to break out upper outliers.}
+1\%. Helpful to break out upper outliers.}
 }
 \description{
 bins a seqential variable based on value ranges. It can often

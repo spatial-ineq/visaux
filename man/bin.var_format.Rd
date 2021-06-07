@@ -14,7 +14,7 @@ bin.var_format(x, ...)
   \describe{
     \item{\code{n_breaks}}{target number of breaks for x}
     \item{\code{highlight_top_percent}}{Whether to break out an additional bin for the top
-1\\%. Helpful to break out upper outliers.}
+1\%. Helpful to break out upper outliers.}
     \item{\code{format_breaks}}{whether to create "x-y" type character labels for buckets rather
 than default labels from \code{cut}}
     \item{\code{digits}}{Digits to pass on to \code{q.format} if using formatting}
