@@ -4,15 +4,15 @@
 \alias{bin_from_breaks}
 \title{bin_from_breaks}
 \usage{
-bin_from_breaks(x, breaks, use_labels = TRUE, digits = 2, ...)
+bin_from_breaks(x, breaks, format_breaks = TRUE, digits = 2, ...)
 }
 \arguments{
 \item{x}{numeric vector}
 
-\item{use_labels}{whether to create "x-y" type character labels for buckets rather
+\item{format_breaks}{whether to create "x-y" type character labels for buckets rather
 than default labels from \code{cut}}
 
-\item{digits}{Digits to pass on to \code{q.format} if \code{use_labels} is TRUE.}
+\item{digits}{Digits to pass on to \code{q.format} if using formatting}
 }
 \description{
 From a determined set of breakpoints, put data into bins

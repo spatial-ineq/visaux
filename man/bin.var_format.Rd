@@ -9,20 +9,21 @@ bin.var_format(x, ...)
 \arguments{
 \item{x}{numeric vector}
 
-\item{n_breaks}{target number of breaks for x}
-
-\item{highlight_top_percent}{Whether to break out an additional bin for the top
+\item{...}{
+  Arguments passed on to \code{\link[=get_breaks]{get_breaks}}, \code{\link[=bin_from_breaks]{bin_from_breaks}}
+  \describe{
+    \item{\code{n_breaks}}{target number of breaks for x}
+    \item{\code{highlight_top_percent}}{Whether to break out an additional bin for the top
 1\\%. Helpful to break out upper outliers.}
-
-\item{use_labels}{whether to create "x-y" type character labels for buckets rather
+    \item{\code{format_breaks}}{whether to create "x-y" type character labels for buckets rather
 than default labels from \code{cut}}
-
-\item{digits}{Digits to pass on to \code{q.format} if \code{use_labels} is TRUE.}
+    \item{\code{digits}}{Digits to pass on to \code{q.format} if using formatting}
+  }}
 }
 \description{
 Bins a sequential variable based on value ranges. It can often make visualizations
 easier to look at by allowing more striking differences and keeping outliers from
-dominating the color scale. Can return formatted values for leaflet legend if
+dominating the color scale. Can return formatted values if
 \code{use_labels} is TRUE. the highlight_top parameter ensures a separate bin for
 top 1\% The function wraps \code{get_breaks} and \code{bin_from_breaks}, which can
 also be used separately

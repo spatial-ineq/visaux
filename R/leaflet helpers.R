@@ -9,9 +9,10 @@
 #' https://stackoverflow.com/questions/54667968/controlling-the-z-index-of-a-leaflet-heatmap-in-r/54676391
 #' for addMapPanel/zIndex details
 #'
-#' @import leaflet
 #' @export create_leaflet_base
 create_leaflet_base <- function() {
+
+  require(leaflet)
 
   leaflet(options = leafletOptions()) %>%
     addMapPane("gs", zIndex = 400) %>%
@@ -89,6 +90,8 @@ zoom_to_bounds <- function( x, mapID="map" ) {
 #' @export iterative_leaflet_draw
 iterative_leaflet_draw <- function(leaflet.proxy, st_df, tooltips, ..., bkdwn_size = 50) {
 
+  require(leaflet)
+
   leaflet.proxy %>% clearGroup("dat")
 
   n_iterations <- ceiling(nrow(st_df) / bkdwn_size )
@@ -127,6 +130,8 @@ leaflet_draw <- function(leaflet.proxy,
                          st_df, tooltips, pal, opacity = 60,
                          var.name = "binned_x", outlines = NULL,
                          width = 0.5, popup_btns = NULL) {
+  require(leaflet)
+
   # drop extras if we're at last loop of iteration.
   st_df <- st_df[!st_is_empty(st_df$geometry), ]
   tooltips <- lapply(tooltips[!is.na(tooltips)], shiny::HTML)

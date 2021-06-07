@@ -4,7 +4,12 @@
 \alias{parks.wrapper}
 \title{parks.wrapper}
 \usage{
-parks.wrapper(x, statefps = NULL, ...)
+parks.wrapper(x = NULL, statefps = NULL, ...)
+}
+\arguments{
+\item{x}{object to derive overlapping statefps from, if statefps is left as null. Aiddtional}
+
+\item{statefps}{statefps to get parks for}
 }
 \description{
 parks.wrapper
