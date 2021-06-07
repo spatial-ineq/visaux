@@ -85,13 +85,7 @@ bin_from_breaks <- function(x, breaks, format_breaks = TRUE, digits = 2, ...) {
 #'
 #' Bins a sequential variable based on value ranges. It can often make visualizations
 #' easier to look at by allowing more striking differences and keeping outliers from
-<<<<<<< HEAD
 #' dominating the color scale. Wraps `get_breaks` and `bin_from_breaks`, which can
-=======
-#' dominating the color scale. Can return formatted values if
-#' `use_labels` is TRUE. the highlight_top parameter ensures a separate bin for
-#' top 1% The function wraps `get_breaks` and `bin_from_breaks`, which can
->>>>>>> 58437a6b6fc3a89038bd791a87e9256b88b2f752
 #' also be used separately
 #'
 #' @param x numeric vector
@@ -109,11 +103,7 @@ bin.var_format <- function(x, ...) {
 #' get_mean_from_interval
 #'
 #' Gets means from intervals in (xx,yy) or (xx,yy] form (for example, common
-<<<<<<< HEAD
 #' output of `cut` function); this transforms into numeric for the point histogram
-=======
-#' output of `cut} function); this transforms into numeric for the point histogram
->>>>>>> 58437a6b6fc3a89038bd791a87e9256b88b2f752
 #'
 #' @param interval interval in form (xx,yy) or (xx,yy]
 #'

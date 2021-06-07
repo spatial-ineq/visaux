@@ -10,5 +10,6 @@ get_mean_from_interval(interval)
 \item{interval}{interval in form (xx,yy) or (xx,yy]}
 }
 \description{
-
+Gets means from intervals in (xx,yy) or (xx,yy] form (for example, common
+output of \code{cut} function); this transforms into numeric for the point histogram
 }
