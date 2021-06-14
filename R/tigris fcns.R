@@ -136,7 +136,10 @@ parks.wrapper <- function(x = NULL, statefps = NULL, ...) {
 
   parks <- parks[grepl('Park|Cmtry', parks$fullname),]
 
-  parks <- st_crop(x, parks)
+  if(!is.null(x)) {
+    parks <- st_transform(parks, st_crs(x))
+    parks <- st_crop(parks, x)
+  }
 
   return(parks)
 }

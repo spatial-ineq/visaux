@@ -30,3 +30,37 @@ col2opacity <- function(x, n_breaks = 5, opacity_range = c(.35, .95)) {
   return(alphas)
 }
 
+
+
+#' add.map.layers
+#'
+#' Downloads map layers such as water and county lines and adds to a ggplot
+#'
+#' @param sfx sf object providing basis for map
+#' @param p existing ggplot to add layers to
+#' @param add.water,addcounties add water areas/counties lines
+#'
+#' @export add.map.layers
+add.map.layers <- function(sfx, p,
+                           add.water = T,
+                           add.counties = T) {
+
+  .cos <- county.subset(sfx)
+  .cos <- st_crop(.cos, sfx)
+  .cos <- st_boundary(.cos)
+  # .prks <- visaux::parks.wrapper
+
+  .wtr <- visaux::water.wrapper(.cos$geoid,
+                                x = sfx)
+
+
+  if(add.water)
+  p <- p +
+    geom_sf(data = .wtr,
+            fill = "#94bdff",
+            color = NA)
+  if(add.counties)
+    p <- p +
+    geom_sf(data = .cos,
+            color = "#666666")
+}
