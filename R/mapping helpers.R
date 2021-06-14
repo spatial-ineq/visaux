@@ -37,11 +37,11 @@ col2opacity <- function(x, n_breaks = 5, opacity_range = c(.35, .95)) {
 #' Downloads map layers such as water and county lines and adds to a ggplot
 #'
 #' @param sfx sf object providing basis for map
-#' @param p existing ggplot to add layers to
+#' @param p existing ggplot to add layers to. Blank ggplot is default
 #' @param add.water,addcounties add water areas/counties lines
 #'
 #' @export add.map.layers
-add.map.layers <- function(sfx, p,
+add.map.layers <- function(sfx, p = ggplot(),
                            add.water = T,
                            add.counties = T) {
 

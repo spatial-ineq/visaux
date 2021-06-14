@@ -4,12 +4,12 @@
 \alias{add.map.layers}
 \title{add.map.layers}
 \usage{
-add.map.layers(sfx, p, add.water = T, add.counties = T)
+add.map.layers(sfx, p = ggplot(), add.water = T, add.counties = T)
 }
 \arguments{
 \item{sfx}{sf object providing basis for map}
 
-\item{p}{existing ggplot to add layers to}
+\item{p}{existing ggplot to add layers to. Blank ggplot is default}
 
 \item{add.water, addcounties}{add water areas/counties lines}
 }
