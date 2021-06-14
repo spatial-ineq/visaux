@@ -59,8 +59,10 @@ add.map.layers <- function(sfx, p,
     geom_sf(data = .wtr,
             fill = "#94bdff",
             color = NA)
+
   if(add.counties)
     p <- p +
     geom_sf(data = .cos,
             color = "#666666")
+  return(p)
 }
