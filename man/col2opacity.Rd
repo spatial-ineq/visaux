@@ -4,7 +4,7 @@
 \alias{col2opacity}
 \title{col2opacity}
 \usage{
-col2opacity(x, n_breaks = 5, opacity_range = c(0.35, 0.95))
+col2opacity(x, n_breaks = 5, opacity_range = c(0.35, 0.95), ...)
 }
 \arguments{
 \item{x}{numeric vector to interpolate opacities for.}

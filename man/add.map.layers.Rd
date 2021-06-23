@@ -4,14 +4,20 @@
 \alias{add.map.layers}
 \title{add.map.layers}
 \usage{
-add.map.layers(sfx, p = ggplot(), add.water = T, add.counties = T)
+add.map.layers(
+  sfx,
+  p = ggplot(),
+  add.water = "#94bdff",
+  add.counties = "#666666"
+)
 }
 \arguments{
 \item{sfx}{sf object providing basis for map}
 
 \item{p}{existing ggplot to add layers to. Blank ggplot is default}
 
-\item{add.water, addcounties}{add water areas/counties lines}
+\item{add.water, add.counties}{add water areas/counties lines. Specify NULL if you
+want to leave off this layer, otherwise specify a color.}
 }
 \description{
 Downloads map layers such as water and county lines and adds to a ggplot
