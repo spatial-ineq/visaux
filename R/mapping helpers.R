@@ -70,26 +70,34 @@ cntr2bbx <- function(cntr, buffer, crs) {
 #' @export add.map.layers
 add.map.layers <- function(sfx, p = ggplot(),
                            add.water = "#94bdff",
-                           add.counties = "#666666") {
+                           add.counties = "#666666",
+                           add.places = "black",
+                           ...) {
 
-  .cos <- county.subset(sfx)
+  .cos <- county.subset(sfx, ...)
   .cos <- st_crop(.cos, sfx)
   .cos <- st_boundary(.cos)
-  # .prks <- visaux::parks.wrapper
 
-  .wtr <- visaux::water.wrapper(.cos$geoid,
-                                x = sfx)
-
-  if(add.water)
+  if(!is.null(add.water)) {
+    .wtr <- visaux::water.wrapper(.cos$geoid, sfx, ...)
     p <- p +
-    geom_sf(data = .wtr,
-            fill = "#94bdff",
-            color = NA)
+      geom_sf(data = .wtr,
+              fill = add.water,
+              color = NA)
+  }
 
-  if(add.counties)
+  if(!is.null(add.counties))
     p <- p +
     geom_sf(data = .cos,
-            color = "#666666")
+            color = add.counties,
+            size = .7)
+
+  if(!is.null(add.places))
+    .plcs <- places.wrapper(.cos$geoid, sfx, ...)
+    p <- p +
+    geom_sf(data = .plcs,
+            color = add.places,
+            size = .7)
 
   return(p)
 }
@@ -121,3 +129,49 @@ ggsave.hirez <- function(dir, fn,
     ...
   )
 }
+
+
+
+
+# map/viz templates ------------------------------------------------------------
+
+#' dot.map.template
+#'
+#' @param dots an sf object long by a group column
+#' @param bbox optional bbx to crop/transform to
+#' @param group.col group column to map by
+#'
+#' @export dot.map.template
+dot.map.template <- function(dots, bbx = NULL, group.col = "group"
+                             , size = 1, shape = 20) {
+
+  if(!is.null(bbx))
+    dots <- dots %>% transform.and.crop(bbx)
+
+  # dot geom
+  ggdot <-
+    geom_sf(data= dots,
+            aes(color = !!rlang::sym(group.col)),
+            size = size
+            ,shape = shape)
+
+  # other plot elements
+  p.elems <-
+    list(
+      scale_colour_brewer(palette = "Accent" #"Set1"
+                          ,name = "")
+      , theme_void()
+      , theme(legend.position = "bottom",
+              legend.margin = margin(t = -0.8, unit='cm'),
+              legend.text = element_text(size = 10)
+      )
+      , guides(size = F,
+               color = guide_legend(override.aes = list(size=5))
+      )
+    )
+
+  c(ggdot,
+    p.elems)
+
+}
+

@@ -4,42 +4,9 @@
 #' wrapper. Then other thin wrappers will call
 
 
-#' flexible.spatial.filter
-#'
-#' Helper fcn that guesses appropriate spatial filter for subsetting polygons that
-#' overlap with another sf object `x`, based on x's geometry type. If `x` contains
-#' points, other polygon layer is subsetted with `st_intersects`; if `x` is polygons,
-#' the other polygon is converted to points with `st_points_on_surface` first.
-#'
-#' Currently doesn't work with non-coterminous polys, but may add that later.
-#'
-#' @param subset.approach spatial filter approach; one of "intersects" or "crop". Intersection or cropping to bbox.
-#'
-flexible.spatial.filter <- function(x, polys,
-                                    subset.approach = c("intersects", "crop"), ...) {
 
-  require(sf)
+# tigris wrappers --------------------------------------------------------------
 
-  polys <- st_transform(polys, st_crs(x))
-
-  # use geometry type to determine spatial filter, if none supplied
-  if(subset.approach[1] == "intersects") {
-    .geo.type <- st_geometry_type(x$geometry) %>% as.character()
-
-    if(any(grepl("POINT", .geo.type)))
-      sbgp <- st_intersects(polys,
-                            x )
-    else
-      sbgp <- st_intersects(st_point_on_surface(polys),
-                            x )
-
-    polys <- polys[lengths(sbgp) > 0, ]
-  } else if(subset.approach[1] == "crop") {
-    polys <- st_crop(polys, x)
-  }
-  return(polys)
-
-}
 
 #' county.subset
 #'
@@ -48,7 +15,7 @@ flexible.spatial.filter <- function(x, polys,
 #' counties. In this case the function `xwalks::get.spatial.overlap` can be helpful.
 #'
 #' @param x `sf` object
-#' @param cos counties sf object. If none supplied, they are downloaded using
+#' @param cos counties sf object. If none supplied, they are retrieved using
 #'   `tigris` library
 #' @inheritDotParams flexible.spatial.filter
 #' @param ... other arguments passed onto `tigris::counties`
@@ -136,10 +103,92 @@ parks.wrapper <- function(x = NULL, statefps = NULL, ...) {
 
   parks <- parks[grepl('Park|Cmtry', parks$fullname),]
 
-  if(!is.null(x)) {
-    parks <- st_transform(parks, st_crs(x))
-    parks <- st_crop(parks, x)
-  }
+  if(!is.null(x))
+    parks <- transform.and.crop(parks, x)
 
   return(parks)
 }
+
+
+#' places.wrapper
+#'
+#' @param x object to derive overlapping statefps from, if statefps is left as null. Aiddtional
+#' @param countyfps countyfps to get parks for
+#'
+#' @export places.wrapper
+places.wrapper <- function(countyfps = NULL, x = NULL, ...) {
+
+  if(is.null(countyfps)) {
+    cos <- county.subset(x, ...)
+    .countyfps <- cos$geoid
+  }
+  .statefps <- substr(.countyfps, 1, 2)
+
+  plcs <- map_dfr(.statefps,
+                  ~tigris::places(.x, ...),
+                  ...)
+
+  if(!is.null(x))
+    plcs <- transform.and.crop(plcs, x)
+
+  return(plcs)
+
+}
+
+
+
+# helpers ----------------------------------------------------------------------
+
+#' flexible.spatial.filter
+#'
+#' Helper fcn that guesses appropriate spatial filter for subsetting polygons that
+#' overlap with another sf object `x`, based on x's geometry type. If `x` contains
+#' points, other polygon layer is subsetted with `st_intersects`; if `x` is polygons,
+#' the other polygon is converted to points with `st_points_on_surface` first.
+#'
+#' Currently doesn't work with non-coterminous polys, but may add that later.
+#'
+#' @param subset.approach spatial filter approach; one of "intersects" or "crop".
+#'   Intersection or cropping to bbox.
+#'
+flexible.spatial.filter <- function(x, polys,
+                                    subset.approach = c("intersects", "crop"), ...) {
+
+  require(sf)
+
+  polys <- st_transform(polys, st_crs(x))
+
+  # use geometry type to determine spatial filter, if none supplied
+  if(subset.approach[1] == "intersects") {
+    .geo.type <- st_geometry_type(x$geometry) %>% as.character()
+
+    if(any(grepl("POINT", .geo.type)))
+      sbgp <- st_intersects(polys,
+                            x )
+    else
+      sbgp <- st_intersects(st_point_on_surface(polys),
+                            x )
+
+    polys <- polys[lengths(sbgp) > 0, ]
+  } else if(subset.approach[1] == "crop") {
+    polys <- st_crop(polys, x)
+  }
+  return(polys)
+}
+
+
+#' transform.and.crop
+#'
+#' Steps common to many of the wrappers if an sf object is supplied to one of the
+#' tigris wrappers. Subsets and crops the input.
+#'
+#' @param basis.layer Layer or bbox to match with crs and crop
+#'
+transform.and.crop <- function(new.layer, basis.layer) {
+
+  new.layer %>%
+    st_transform(st_crs(basis.layer)) %>%
+    st_crop(basis.layer)
+}
+
+

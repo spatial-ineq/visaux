@@ -8,7 +8,9 @@ add.map.layers(
   sfx,
   p = ggplot(),
   add.water = "#94bdff",
-  add.counties = "#666666"
+  add.counties = "#666666",
+  add.places = "black",
+  ...
 )
 }
 \arguments{

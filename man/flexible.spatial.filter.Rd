@@ -2,7 +2,7 @@
 % Please edit documentation in R/tigris fcns.R
 \name{flexible.spatial.filter}
 \alias{flexible.spatial.filter}
-\title{functions that interface with the \code{tigris} library to query layers.}
+\title{flexible.spatial.filter}
 \usage{
 flexible.spatial.filter(
   x,
@@ -12,18 +12,15 @@ flexible.spatial.filter(
 )
 }
 \arguments{
-\item{subset.approach}{spatial filter approach; one of "intersects" or "crop". Intersection or cropping to bbox.}
+\item{subset.approach}{spatial filter approach; one of "intersects" or "crop".
+Intersection or cropping to bbox.}
 }
 \description{
-The flow is: given a spatial layer, can query counties with county_subset, a thin
-wrapper. Then other thin wrappers will call
-flexible.spatial.filter
-}
-\details{
 Helper fcn that guesses appropriate spatial filter for subsetting polygons that
 overlap with another sf object \code{x}, based on x's geometry type. If \code{x} contains
 points, other polygon layer is subsetted with \code{st_intersects}; if \code{x} is polygons,
 the other polygon is converted to points with \code{st_points_on_surface} first.
-
+}
+\details{
 Currently doesn't work with non-coterminous polys, but may add that later.
 }
