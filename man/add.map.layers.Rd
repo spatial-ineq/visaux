@@ -6,7 +6,6 @@
 \usage{
 add.map.layers(
   sfx,
-  p = ggplot(),
   add.water = "#94bdff",
   add.counties = "#666666",
   add.places = "black",
@@ -16,10 +15,10 @@ add.map.layers(
 \arguments{
 \item{sfx}{sf object providing basis for map}
 
-\item{p}{existing ggplot to add layers to. Blank ggplot is default}
-
 \item{add.water, add.counties}{add water areas/counties lines. Specify NULL if you
 want to leave off this layer, otherwise specify a color.}
+
+\item{p}{existing ggplot to add layers to. Blank ggplot is default}
 }
 \description{
 Downloads map layers such as water and county lines and adds to a ggplot

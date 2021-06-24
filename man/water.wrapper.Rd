@@ -10,7 +10,7 @@ water.wrapper(countyfps = NULL, x = NULL, size.min = 5e+06, ...)
 \item{countyfps}{5-character state/county fp codes. Retrieved using
 \code{county.subset} and supplied \code{x} argument if null.}
 
-\item{x}{\code{sf} object to get overlapping water areas for. Passed onto
+\item{x}{\code{sf} or \code{bbox} to get overlapping water areas for. Passed onto
 \code{county.subset} if no county fps are supplied. Also used to spatially subset
 water areas.}
 

@@ -68,38 +68,43 @@ cntr2bbx <- function(cntr, buffer, crs) {
 #'   want to leave off this layer, otherwise specify a color.
 #'
 #' @export add.map.layers
-add.map.layers <- function(sfx, p = ggplot(),
+add.map.layers <- function(sfx,
                            add.water = "#94bdff",
                            add.counties = "#666666",
                            add.places = "black",
                            ...) {
 
+  browser()
   .cos <- county.subset(sfx, ...)
   .cos <- st_crop(.cos, sfx)
   .cos <- st_boundary(.cos)
 
+  lyrs <- list()
+
   if(!is.null(add.water)) {
     .wtr <- visaux::water.wrapper(.cos$geoid, sfx, ...)
-    p <- p +
+    lyrs$water <-
       geom_sf(data = .wtr,
               fill = add.water,
               color = NA)
   }
 
-  if(!is.null(add.counties))
-    p <- p +
+  if(!is.null(add.counties)) {
+    lyrs$counties <-
     geom_sf(data = .cos,
             color = add.counties,
             size = .7)
-
-  if(!is.null(add.places))
+  }
+  if(!is.null(add.places)) {
     .plcs <- places.wrapper(.cos$geoid, sfx, ...)
-    p <- p +
+  lyrs$places <-
     geom_sf(data = .plcs,
             color = add.places,
+            fill = NA,
             size = .7)
+  }
 
-  return(p)
+  return(lyrs)
 }
 
 

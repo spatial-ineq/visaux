@@ -14,7 +14,7 @@
 #' adapt based on input, but can be thrown off when `x` isn't coterminous with
 #' counties. In this case the function `xwalks::get.spatial.overlap` can be helpful.
 #'
-#' @param x `sf` object
+#' @param x `sf` or `bbox`
 #' @param cos counties sf object. If none supplied, they are retrieved using
 #'   `tigris` library
 #' @inheritDotParams flexible.spatial.filter
@@ -25,8 +25,6 @@ county.subset <- function(x, cos = NULL, ...) {
 
   if(is.null(cos))
     cos <- tigris::counties(...)
-
-  x <- st_sf(x)
 
   cos <- flexible.spatial.filter(x, cos, ...)
 
@@ -43,7 +41,7 @@ county.subset <- function(x, cos = NULL, ...) {
 #'
 #' @param countyfps 5-character state/county fp codes. Retrieved using
 #'   `county.subset` and supplied `x` argument if null.
-#' @param x `sf` object to get overlapping water areas for. Passed onto
+#' @param x `sf` or `bbox` to get overlapping water areas for. Passed onto
 #'   `county.subset` if no county fps are supplied. Also used to spatially subset
 #'   water areas.
 #' @param size.min Minimum size in m^2, after internal boundaries are resolved (if a
@@ -116,9 +114,9 @@ parks.wrapper <- function(x = NULL, statefps = NULL, ...) {
 #' @param countyfps countyfps to get parks for
 #'
 #' @export places.wrapper
-places.wrapper <- function(countyfps = NULL, x = NULL, ...) {
+places.wrapper <- function(.countyfps = NULL, x = NULL, ...) {
 
-  if(is.null(countyfps)) {
+  if(is.null(.countyfps)) {
     cos <- county.subset(x, ...)
     .countyfps <- cos$geoid
   }
@@ -159,7 +157,10 @@ flexible.spatial.filter <- function(x, polys,
   polys <- st_transform(polys, st_crs(x))
 
   # use geometry type to determine spatial filter, if none supplied
-  if(subset.approach[1] == "intersects") {
+  if(subset.approach[1] == "intersects" &
+     !"bbox" %in% class(x)) {
+    x <- st_sf(x)
+
     .geo.type <- st_geometry_type(x$geometry) %>% as.character()
 
     if(any(grepl("POINT", .geo.type)))
@@ -170,7 +171,8 @@ flexible.spatial.filter <- function(x, polys,
                             x )
 
     polys <- polys[lengths(sbgp) > 0, ]
-  } else if(subset.approach[1] == "crop") {
+  } else if(subset.approach[1] == "crop" |
+            "bbox" %in% class(x)) {
     polys <- st_crop(polys, x)
   }
   return(polys)

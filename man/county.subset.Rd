@@ -7,7 +7,7 @@
 county.subset(x, cos = NULL, ...)
 }
 \arguments{
-\item{x}{\code{sf} object}
+\item{x}{\code{sf} or \code{bbox}}
 
 \item{cos}{counties sf object. If none supplied, they are retrieved using
 \code{tigris} library}
