@@ -97,13 +97,12 @@ add.map.layers <- function(sfx,
   }
   if(!is.null(add.places)) {
     .plcs <- places.wrapper(.cos$geoid, sfx, ...)
-  lyrs$places <-
-    geom_sf(data = .plcs,
-            color = add.places,
-            fill = NA,
-            size = .7)
+    lyrs$places <-
+      geom_sf(data = .plcs,
+              color = add.places,
+              fill = NA,
+              size = .7)
   }
-
   return(lyrs)
 }
 
@@ -115,6 +114,7 @@ add.map.layers <- function(sfx,
 #'
 #' @param dir,fn directory and filename to save to
 #'
+#' @export
 ggsave.hirez <- function(dir, fn,
                          ext = "png",
                          height = 7.5,
