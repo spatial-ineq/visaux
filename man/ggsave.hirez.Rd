@@ -4,7 +4,16 @@
 \alias{ggsave.hirez}
 \title{ggsave.hirez}
 \usage{
-ggsave.hirez(dir, fn, ext = "png", height = 7.5, units = "in", dpi = 340, ...)
+ggsave.hirez(
+  plot,
+  dir,
+  fn,
+  ext = "png",
+  height = 7.5,
+  units = "in",
+  dpi = 340,
+  ...
+)
 }
 \arguments{
 \item{dir, fn}{directory and filename to save to}

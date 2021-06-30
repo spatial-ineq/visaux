@@ -115,7 +115,8 @@ add.map.layers <- function(sfx,
 #' @param dir,fn directory and filename to save to
 #'
 #' @export
-ggsave.hirez <- function(dir, fn,
+ggsave.hirez <- function(plot,
+                         dir, fn,
                          ext = "png",
                          height = 7.5,
                          units = "in",
@@ -127,6 +128,7 @@ ggsave.hirez <- function(dir, fn,
 
   ggsave(
     filename = paste0(dir, fn, ".", ext),
+    plot = plot,
     height = height,
     width = width,
     units = units,
