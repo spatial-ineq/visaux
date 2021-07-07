@@ -74,7 +74,6 @@ add.map.layers <- function(sfx,
                            add.places = "black",
                            ...) {
 
-  browser()
   .cos <- county.subset(sfx, ...)
   .cos <- st_crop(.cos, sfx)
   .cos <- st_boundary(.cos)
