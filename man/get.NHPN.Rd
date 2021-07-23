@@ -13,7 +13,8 @@ get.NHPN(
 )
 }
 \arguments{
-\item{sfx}{if not NULL, an \code{sf} object to use to crop hwy data}
+\item{sfx}{if not NULL, an \code{sf} object to use to crop hwy data. Will also
+transform hwys to match CRS}
 
 \item{dropbox.dir, subdir}{concatenated to get to nhpn data}
 }
