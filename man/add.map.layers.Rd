@@ -9,6 +9,7 @@ add.map.layers(
   add.water = "#94bdff",
   add.counties = "#666666",
   add.places = "black",
+  lwd = 0.5,
   spatial.trim = c(st_intersection, st_crop),
   ...
 )
@@ -18,6 +19,8 @@ add.map.layers(
 
 \item{add.water, add.counties}{add water areas/counties lines. Specify NULL if you
 want to leave off this layer, otherwise specify a color.}
+
+\item{lwd}{line width, to apply to linear features (places and counties)}
 
 \item{spatial.trim}{Spatial trim method. Intersection or crop suggested.}
 

@@ -94,7 +94,8 @@ ctsf <- divM::tracts.from.region(tmprid)
 ctsf
 
 atl.lyrs <- add.map.layers(ctsf,
-                           add.counties = NULL)
+                           add.counties = NULL
+                           , lwd = .2)
 pc <-
   ggplot(ctsf) +
   geom_sf(aes(fill = countyfp),

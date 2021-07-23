@@ -66,6 +66,7 @@ cntr2bbx <- function(cntr, buffer, crs) {
 #' @param p existing ggplot to add layers to. Blank ggplot is default
 #' @param add.water,add.counties add water areas/counties lines. Specify NULL if you
 #'   want to leave off this layer, otherwise specify a color.
+#' @param lwd line width, to apply to linear features (places and counties)
 #' @param spatial.trim Spatial trim method. Intersection or crop suggested.
 #'
 #' @export add.map.layers
@@ -73,6 +74,7 @@ add.map.layers <- function(sfx,
                            add.water = "#94bdff",
                            add.counties = "#666666",
                            add.places = "black",
+                           lwd = .5,
                            spatial.trim = c(st_intersection,
                                             st_crop),
                            ...) {
@@ -95,7 +97,7 @@ add.map.layers <- function(sfx,
     lyrs$counties <-
       geom_sf(data = .cos,
               color = add.counties,
-              size = .7)
+              size = lwd)
   }
 
   if(!is.null(add.water)) {
@@ -117,7 +119,7 @@ add.map.layers <- function(sfx,
       geom_sf(data = .plcs,
               color = add.places,
               fill = NA,
-              size = .7)
+              size = lwd)
   }
   return(lyrs)
 }
