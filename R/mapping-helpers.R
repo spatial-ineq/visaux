@@ -66,36 +66,50 @@ cntr2bbx <- function(cntr, buffer, crs) {
 #' @param p existing ggplot to add layers to. Blank ggplot is default
 #' @param add.water,add.counties add water areas/counties lines. Specify NULL if you
 #'   want to leave off this layer, otherwise specify a color.
+#' @param spatial.trim Spatial trim method. Intersection or crop suggested.
 #'
 #' @export add.map.layers
 add.map.layers <- function(sfx,
                            add.water = "#94bdff",
                            add.counties = "#666666",
                            add.places = "black",
+                           spatial.trim = c(st_intersection,
+                                            st_crop),
                            ...) {
+  require(tidyverse)
+
+  options(tigris_use_cache = TRUE)
+  if(is.list(spatial.trim))
+    spatial.trim <- spatial.trim[[1]]
 
   .cos <- county.subset(sfx, ...)
   .cos <- st_crop(.cos, sfx)
-  .cos <- st_boundary(.cos)
+  .cos <- st_boundary(.cos) %>%
+    spatial.trim(sfx)
 
   lyrs <- list()
 
+  if(!is.null(add.counties)) {
+    lyrs$counties <-
+      geom_sf(data = .cos,
+              color = add.counties,
+              size = .7)
+  }
+
   if(!is.null(add.water)) {
-    .wtr <- visaux::water.wrapper(.cos$geoid, sfx, ...)
+    .wtr <- visaux::water.wrapper(.cos$geoid, sfx, ...) %>%
+      spatial.trim(sfx)
+
     lyrs$water <-
       geom_sf(data = .wtr,
               fill = add.water,
               color = NA)
   }
 
-  if(!is.null(add.counties)) {
-    lyrs$counties <-
-    geom_sf(data = .cos,
-            color = add.counties,
-            size = .7)
-  }
+
   if(!is.null(add.places)) {
-    .plcs <- places.wrapper(.cos$geoid, sfx, ...)
+    .plcs <- places.wrapper(.cos$geoid, sfx, ...)  %>%
+      spatial.trim(sfx)
     lyrs$places <-
       geom_sf(data = .plcs,
               color = add.places,

@@ -5,7 +5,8 @@
 #'
 #' Get National Highway Planning Network highway data.
 #'
-#' @param sfx if not NULL, an `sf` object to use to crop hwy data
+#' @param sfx if not NULL, an `sf` object to use to crop hwy data. Will also
+#'   transform hwys to match CRS
 #' @param dropbox.dir,subdir concatenated to get to nhpn data
 #'
 #' @export get.NHPN
@@ -26,7 +27,8 @@ get.NHPN <- function(sfx = NULL,
     hwys <- nhpn.dir %>%
       list.files(pattern = "shp$",
                  full.names = T) %>%
-      st_read(wkt_filter = wkt.str)
+      st_read(wkt_filter = wkt.str) %>%
+      st_transform(st_crs(sfx))
   } else {
     hwys <- nhpn.dir %>%
       list.files(pattern = "shp$",

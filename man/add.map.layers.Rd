@@ -9,6 +9,7 @@ add.map.layers(
   add.water = "#94bdff",
   add.counties = "#666666",
   add.places = "black",
+  spatial.trim = c(st_intersection, st_crop),
   ...
 )
 }
@@ -17,6 +18,8 @@ add.map.layers(
 
 \item{add.water, add.counties}{add water areas/counties lines. Specify NULL if you
 want to leave off this layer, otherwise specify a color.}
+
+\item{spatial.trim}{Spatial trim method. Intersection or crop suggested.}
 
 \item{p}{existing ggplot to add layers to. Blank ggplot is default}
 }

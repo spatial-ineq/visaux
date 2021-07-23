@@ -72,8 +72,7 @@ water.wrapper <- function(countyfps = NULL, x = NULL, size.min = 5e6, ...) {
   water <- water %>% filter(as.numeric(st_area(.$geometry)) > size.min )
 
   if(!is.null(x)) {
-    water <- st_transform(water, st_crs(x))
-    water <- st_crop(water, x)
+    water <- transform.and.crop(water, x)
   }
 
   return(water)
