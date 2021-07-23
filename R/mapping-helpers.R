@@ -76,14 +76,16 @@ add.map.layers <- function(sfx,
                            spatial.trim = c(st_intersection,
                                             st_crop),
                            ...) {
-  require(tidyverse)
 
+  require(tidyverse)
   options(tigris_use_cache = TRUE)
+
   if(is.list(spatial.trim))
     spatial.trim <- spatial.trim[[1]]
 
+  sfx <- st_union(sfx)
   .cos <- county.subset(sfx, ...)
-  .cos <- st_crop(.cos, sfx)
+
   .cos <- st_boundary(.cos) %>%
     spatial.trim(sfx)
 
@@ -110,6 +112,7 @@ add.map.layers <- function(sfx,
   if(!is.null(add.places)) {
     .plcs <- places.wrapper(.cos$geoid, sfx, ...)  %>%
       spatial.trim(sfx)
+
     lyrs$places <-
       geom_sf(data = .plcs,
               color = add.places,

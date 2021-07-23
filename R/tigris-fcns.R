@@ -158,9 +158,8 @@ flexible.spatial.filter <- function(x, polys,
   # use geometry type to determine spatial filter, if none supplied
   if(subset.approach[1] == "intersects" &
      !"bbox" %in% class(x)) {
-    x <- st_sf(x)
 
-    .geo.type <- st_geometry_type(x$geometry) %>% as.character()
+    .geo.type <- st_geometry_type(x) %>% as.character()
 
     if(any(grepl("POINT", .geo.type)))
       sbgp <- st_intersects(polys,

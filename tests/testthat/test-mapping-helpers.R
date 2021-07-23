@@ -30,6 +30,9 @@ cts <- cts %>%
          geometry)
 
 
+# standalone queries -----------------------------------------------------------
+
+.wtr <- water.wrapper(x = cts)
 
 # visual tests -----------------------------------------------------------------
 
@@ -45,6 +48,8 @@ gglyrs_c <- visaux::add.map.layers(
   add.places = 'white',
   spatial.trim = st_crop
 )
+
+
 
 # plots
 ggplot(cts) +
@@ -76,3 +81,23 @@ hwy.lyrs <-
 
 pc +
   hwy.lyrs
+
+
+# atlanta..? -------------------------------------------------------------------
+
+devtools::load_all()
+
+ctsf <- xwalks::ctx %>%
+  filter(grepl('Atlanta', cbsa_name) )
+tmprid <- divM::get.region.identifiers(cbsa= '12060')
+ctsf <- divM::tracts.from.region(tmprid)
+ctsf
+
+atl.lyrs <- add.map.layers(ctsf,
+                           add.counties = NULL)
+pc <-
+  ggplot(ctsf) +
+  geom_sf(aes(fill = countyfp),
+          size = .2) +
+  atl.lyrs
+pc
