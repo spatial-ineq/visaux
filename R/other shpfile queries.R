@@ -6,11 +6,10 @@
 #' Get National Highway Planning Network highway data.
 #'
 #' @param sfx if not NULL, an `sf` object to use to crop hwy data
-#' @param rts.to.keep Interstates, US routes, etc.
 #' @param dropbox.dir,subdir concatenated to get to nhpn data
 #'
+#' @export get.NHPN
 get.NHPN <- function(sfx = NULL,
-                     rts.to.keep = c("I", "U"),
                      dropbox.dir = Sys.getenv("drop_dir"),
                      subdir = "shapefiles/nhpn/") {
   require(sf)
@@ -34,7 +33,7 @@ get.NHPN <- function(sfx = NULL,
                  full.names = T) %>%
       st_read()
   }
-  colnames(tmp.hwy) <- tolower(colnames(tmp.hwy))
+  colnames(hwys) <- tolower(colnames(hwys))
 
-  return(tmp.hwy)
+  return(hwys)
 }

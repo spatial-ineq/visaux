@@ -8,15 +8,12 @@ get.NHPN}
 \usage{
 get.NHPN(
   sfx = NULL,
-  rts.to.keep = c("I", "U"),
   dropbox.dir = Sys.getenv("drop_dir"),
   subdir = "shapefiles/nhpn/"
 )
 }
 \arguments{
 \item{sfx}{if not NULL, an \code{sf} object to use to crop hwy data}
-
-\item{rts.to.keep}{Interstates, US routes, etc.}
 
 \item{dropbox.dir, subdir}{concatenated to get to nhpn data}
 }
