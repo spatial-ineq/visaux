@@ -36,7 +36,7 @@ cts <- cts %>%
 
 # visual tests -----------------------------------------------------------------
 
-# get county/plc/water layers
+# county/plc/water layers
 gglyrs <- visaux::add.map.layers(
   cts,
   add.places = '#20E0E0'
@@ -61,7 +61,7 @@ pc <-
   ggplot(cts) +
   geom_sf(aes(fill = pop),
           color = NA) +
-  gglyrs_c
+  gglyrs
 pc
 
 # add hwys
