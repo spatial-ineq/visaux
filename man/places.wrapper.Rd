@@ -4,7 +4,7 @@
 \alias{places.wrapper}
 \title{places.wrapper}
 \usage{
-places.wrapper(.countyfps = NULL, x = NULL, ...)
+places.wrapper(.countyfps = NULL, x = NULL, year = 2019, ...)
 }
 \arguments{
 \item{x}{object to derive overlapping statefps from, if statefps is left as null. Aiddtional}

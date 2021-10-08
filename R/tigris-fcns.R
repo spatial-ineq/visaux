@@ -21,10 +21,10 @@
 #' @param ... other arguments passed onto `tigris::counties`
 #'
 #' @export county.subset
-county.subset <- function(x, cos = NULL, ...) {
+county.subset <- function(x, cos = NULL, year = 2019, ...) {
 
   if(is.null(cos))
-    cos <- tigris::counties(...)
+    cos <- tigris::counties(year = year)
 
   cos <- flexible.spatial.filter(x, cos, ...)
 
@@ -113,7 +113,8 @@ parks.wrapper <- function(x = NULL, statefps = NULL, ...) {
 #' @param countyfps countyfps to get parks for
 #'
 #' @export places.wrapper
-places.wrapper <- function(.countyfps = NULL, x = NULL, ...) {
+places.wrapper <- function(.countyfps = NULL, x = NULL, year = 2019,
+                           ...) {
 
   if(is.null(.countyfps)) {
     cos <- county.subset(x, ...)
@@ -122,7 +123,7 @@ places.wrapper <- function(.countyfps = NULL, x = NULL, ...) {
   .statefps <- substr(.countyfps, 1, 2)
 
   plcs <- map_dfr(.statefps,
-                  ~tigris::places(.x, ...),
+                  ~tigris::places(.x, year = year),
                   ...)
 
   if(!is.null(x))

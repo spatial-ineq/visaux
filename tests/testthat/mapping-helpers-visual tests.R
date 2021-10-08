@@ -33,6 +33,10 @@ cts <- cts %>%
 # standalone queries -----------------------------------------------------------
 
 .wtr <- water.wrapper(x = cts)
+.plcs <- places.wrapper(x = st_union(cts))
+.plcs
+
+
 
 # visual tests -----------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 \alias{county.subset}
 \title{functions that interface with the \code{tigris} library to query layers.}
 \usage{
-county.subset(x, cos = NULL, ...)
+county.subset(x, cos = NULL, year = 2019, ...)
 }
 \arguments{
 \item{x}{\code{sf} or \code{bbox}}
