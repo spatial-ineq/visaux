@@ -233,10 +233,10 @@ get.stamen.bkg <- function(sfx
   }
 
   sttm <- ggmap::get_stamenmap(
-    bbox = c(left = bbx[['xmin']],
-             bottom = bbx[['ymin']],
-             right = bbx[['xmax']],
-             top = bbx[['ymax']])
+    bbox = c(left = sfx[['xmin']],
+             bottom = sfx[['ymin']],
+             right = sfx[['xmax']],
+             top = sfx[['ymax']])
     ,zoom = zoom
     ,maptype = maptype
     ,...
