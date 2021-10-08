@@ -1,5 +1,8 @@
 library(sf)
 library(tidyverse)
+library(visaux)
+
+# ~~these are not finished ~~
 
 # option setting
 sf_use_s2(F)
@@ -9,96 +12,34 @@ devtools::load_all()
 
 rm(list=ls())
 
-# get sample area to vis -------------------------------------------------------
+# get an area surrounding st louis
+stl <- geox::rx %>%
+  filter(grepl("St. Louis", cz_name))
 
-# 2 counties in Baltimore
-cos <- xwalks::co2cbsa %>%
-  filter(grepl("Baltimore", cbsa_name))
+library(mapview)
+plc <-
+  divM::largest.plc.in.cz %>%
+  filter(cz.id %in% stl$cz)
 
-cts <-
-  tidycensus::get_acs(
-  "tract",
-  variables = 'B01001_001',
-  state = '24',
-  county = c('035', '025')
-  , geometry = T
-  )
-colnames(cts) <- tolower(colnames(cts))
-
-cts <- cts %>%
-  select(geoid, pop = estimate,
-         geometry)
+# I think that shows me that plc centroid will actually be better.
+buffer.dst <- units::set_units(20, 'miles')
+buffered.plc <- plc[1] %>%
+  divM::conic.transform() %>%
+  st_centroid() %>%
+  st_buffer(buffer.dst)
+plc[1] %>% mapview::mapview()
+buffered.plc[1] %>% mapview::mapview()
 
 
-# standalone queries -----------------------------------------------------------
-
-.wtr <- water.wrapper(x = cts)
-
-# visual tests -----------------------------------------------------------------
-
-# county/plc/water layers
-gglyrs <- visaux::add.map.layers(
-  cts,
-  add.places = '#20E0E0'
-)
-
-# cropped version
-gglyrs_c <- visaux::add.map.layers(
-  cts,
-  add.places = 'white',
-  spatial.trim = st_crop
-)
-
-
-
-# plots
-ggplot(cts) +
-  geom_sf(aes(fill = pop),
-          color = NA) +
-  gglyrs
-
-pc <-
-  ggplot(cts) +
-  geom_sf(aes(fill = pop),
-          color = NA) +
-  gglyrs
-pc
-
-# add hwys
-rm(hwys)
-hwys <- visaux::get.NHPN(cts)
-hwys <- hwys %>% st_intersection(st_union(cts))
-
-hwy.lyrs <-
-  list(
-    geom_sf(data = filter(hwys,
-                          signt1 == "I")
-            , color = "black", size = 1.1)
-    ,geom_sf(data = filter(hwys,
-                           signt1 == "U")
-             , color = "#882222", size = .9)
+# get counties within st louis and in the surrounding area
+?visaux::county.subset(plc)
+visaux::county.subset(buffered.plc, subset.approach = 'crop')
+ctsf <- stl$countyfp %>%
+  map_dfr(
+    ~tigris::tracts(state = substr(.x, 1,2)
+                    ,county = substr(.x, 3,5)
+                    ,year= 2019)
   )
 
-pc +
-  hwy.lyrs
-
-
-# atlanta..? -------------------------------------------------------------------
-
-devtools::load_all()
-
-ctsf <- xwalks::ctx %>%
-  filter(grepl('Atlanta', cbsa_name) )
-tmprid <- divM::get.region.identifiers(cbsa= '12060')
-ctsf <- divM::tracts.from.region(tmprid)
 ctsf
 
-atl.lyrs <- add.map.layers(ctsf,
-                           add.counties = NULL
-                           , lwd = .2)
-pc <-
-  ggplot(ctsf) +
-  geom_sf(aes(fill = countyfp),
-          size = .2) +
-  atl.lyrs
-pc

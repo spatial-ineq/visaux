@@ -200,3 +200,56 @@ dot.map.template <- function(dots, bbx = NULL, group.col = "group"
 
 }
 
+
+
+# setup leaflet tiles for ggplot bkg -------------------------------------------
+
+#' get.stamen.bkg
+#'
+#' Gets stamen base tiles based on supplied bbox of `sf` object.
+#'
+#' Unfortunately, ggmap has some idiosyncracies with geom_sf. If combining these into
+#' single plot, remember:
+#'
+#' 1) include `inherit.aes = F` in geom_sf layer
+#'
+#' 2) Match sf crs to that of stamen tiles. Should be epsg = 4326 (but looks like
+#' google maps uses different)
+#'
+#'
+#' @export get.stamen.bkg
+get.stamen.bkg <- function(sfx
+                           ,maptype = 'toner-background'
+                           ,zoom = 10
+                           , ...) {
+
+
+  # turn sf to bbox if needed
+  if(! 'bbox' %in% class(sfx)) {
+    # to longlat
+    sfx <- sfx %>% st_transform(4326)
+    # to bbox
+    sfx <- sfx %>% st_bbox()
+  }
+
+  sttm <- ggmap::get_stamenmap(
+    bbox = c(left = bbx[['xmin']],
+             bottom = bbx[['ymin']],
+             right = bbx[['xmax']],
+             top = bbx[['ymax']])
+    ,zoom = zoom
+    ,maptype = maptype
+    ,...
+  )
+
+  return(sttm)
+}
+
+
+
+
+# areas from bbx ---------------------------------------------------------------
+
+# when I'm interested in creating a plot and limiting bounds using coord_sf, or
+# otherwise basing plot on a bbox rather than vector barriers.
+
