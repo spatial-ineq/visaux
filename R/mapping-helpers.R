@@ -223,6 +223,8 @@ get.stamen.bkg <- function(sfx
                            ,zoom = 10
                            , ...) {
 
+  # load ggmap
+  require(ggmap)
 
   # turn sf to bbox if needed
   if(! 'bbox' %in% class(sfx)) {
@@ -244,6 +246,7 @@ get.stamen.bkg <- function(sfx
 
   return(sttm)
 }
+
 
 
 
