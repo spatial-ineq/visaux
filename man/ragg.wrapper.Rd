@@ -4,10 +4,26 @@
 \alias{ragg.wrapper}
 \title{ragg.wrapper}
 \usage{
-ragg.wrapper(fn, plot = ggplot2::last_plot(), sv.dir = "visuals/", ...)
+ragg.wrapper(
+  fn = NULL,
+  plot = ggplot2::last_plot(),
+  sv.dir = "visuals/",
+  width = 10,
+  height = 8,
+  res = 188,
+  units = "in"
+)
 }
 \arguments{
-\item{fn}{filename to save to}
+\item{fn}{filename to save to. If NULL, will just saved to i.e., \verb{-1.png},
+incrementing if other plots exist}
+
+\item{plot}{to save}
+
+\item{sv.dir}{save directory. Defaults to \verb{visuals/} subdirectory w/in project
+dir.}
+
+\item{width, height, res, units}{passed onto \code{ragg::agg_png}}
 }
 \description{
 Wraps \code{ragg::agg_png} to save a plot as .png. An alternative to ggsave. See
