@@ -113,3 +113,34 @@ get_mean_from_interval <- function(interval) {
     purrr::map_dbl(~mean(as.numeric(.), na.rm = T))
   return(mean_list)
 }
+
+
+
+# string formating -------------------------------------------------------------
+
+
+#' linebreaks2string
+#'
+#' Removes white space (if `clean.ws` is true), then adds linebreaks at uniform
+#' intervals. Can deal with very long ggplot captions, for example
+#'
+#' @export linebreaks2string
+linebreaks2string <- function(x
+                              , line.char.len = 80
+                              ,clean.ws = T
+                              , line.break = '\n') {
+  # first remove breaks
+  x <- gsub('\n', ' ', x)
+
+  if(clean.ws)
+    x <- gsub('  +', ' ', x)
+
+  # then add new ones at every x characters
+  regex <- paste0('(.{'
+                  ,line.char.len,
+                  ',}?)\\s')
+
+  x <- gsub(regex, "\\1\n", x)
+  return(x)
+}
+

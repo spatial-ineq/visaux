@@ -248,9 +248,26 @@ get.stamen.bkg <- function(sfx
 }
 
 
+#' bbox.to.ggcrop
+#'
+#' Wraps `coord_sf`, which can be used to crop a map made in ggplot. Uses an sf object
+#' or bbox to set crop area.
+#'
+#' @export bbox.to.ggcrop
+bbox2ggcrop <- function(sfx, crs = 4326) {
 
+  # turn sf to bbox if needed
+  if(! 'bbox' %in% class(sfx)) {
+    # project
+    sfx <- sfx %>% st_transform(crs)
+    # to bbox
+    sfx <- sfx %>% st_bbox()
+  }
+  # return coord_sf
+  coord_sf( xlim = c(sfx[['xmin']], sfx['xmax'])
+            ,ylim = c(sfx[['ymin']], sfx['ymax']))
 
-
+}
 # areas from bbx ---------------------------------------------------------------
 
 # when I'm interested in creating a plot and limiting bounds using coord_sf, or
