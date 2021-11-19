@@ -50,3 +50,36 @@ ragg.wrapper <- function(fn = NULL
   print(plot)
   invisible(dev.off())
 }
+
+
+
+
+#' ggsave.hirez
+#'
+#' Wraps ggsave with some defaults I'm finding sensible. I think this is inferior to
+#' `ragg.wrapper`
+#'
+#' @param dir,fn directory and filename to save to
+#'
+#' @export ggsave.hirez
+ggsave.hirez <- function(plot,
+                         dir, fn,
+                         ext = "png",
+                         height = 7.5,
+                         units = "in",
+                         dpi = 340,
+                         ...) {
+
+  require(ggplot2)
+  width <- height * 1.228
+
+  ggsave(
+    filename = paste0(dir, fn, ".", ext),
+    plot = plot,
+    height = height,
+    width = width,
+    units = units,
+    dpi = dpi,
+    ...
+  )
+}

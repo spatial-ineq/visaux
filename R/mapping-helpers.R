@@ -126,35 +126,6 @@ add.map.layers <- function(sfx,
 
 
 
-#' ggsave.hirez
-#'
-#' Wraps ggsave with some defaults I'm finding sensible.
-#'
-#' @param dir,fn directory and filename to save to
-#'
-#' @export
-ggsave.hirez <- function(plot,
-                         dir, fn,
-                         ext = "png",
-                         height = 7.5,
-                         units = "in",
-                         dpi = 340,
-                         ...) {
-
-  require(ggplot2)
-  width <- height * 1.228
-
-  ggsave(
-    filename = paste0(dir, fn, ".", ext),
-    plot = plot,
-    height = height,
-    width = width,
-    units = units,
-    dpi = dpi,
-    ...
-  )
-}
-
 
 
 
@@ -216,6 +187,11 @@ dot.map.template <- function(dots, bbx = NULL, group.col = "group"
 #' 2) Match sf crs to that of stamen tiles. Should be epsg = 4326 (but looks like
 #' google maps uses different)
 #'
+#' @param sfx bbox or sf object to get background for
+#' @param maptype passed onto `ggmap::get_stamenmap`. 'toner-background' and
+#'   'toner-lines' are good options for basic black/white background maps with major
+#'   features. 'Lines seems better for showing small streets and has less black on
+#'   it.
 #'
 #' @export get.stamen.bkg
 get.stamen.bkg <- function(sfx
@@ -225,6 +201,7 @@ get.stamen.bkg <- function(sfx
 
   # load ggmap
   require(ggmap)
+
 
   # turn sf to bbox if needed
   if(! 'bbox' %in% class(sfx)) {
@@ -248,24 +225,22 @@ get.stamen.bkg <- function(sfx
 }
 
 
-#' bbox.to.ggcrop
+#' bbox2ggcrop
 #'
 #' Wraps `coord_sf`, which can be used to crop a map made in ggplot. Uses an sf object
 #' or bbox to set crop area.
 #'
-#' @export bbox.to.ggcrop
+#' @export bbox2ggcrop
 bbox2ggcrop <- function(sfx, crs = 4326) {
 
   # turn sf to bbox if needed
-  if(! 'bbox' %in% class(sfx)) {
-    # project
-    sfx <- sfx %>% st_transform(crs)
-    # to bbox
-    sfx <- sfx %>% st_bbox()
-  }
+  if(! 'bbox' %in% class(sfx))
+    sfx <- sfx %>% st_transform(crs) %>% st_bbox()
+
+
   # return coord_sf
-  coord_sf( xlim = c(sfx[['xmin']], sfx['xmax'])
-            ,ylim = c(sfx[['ymin']], sfx['ymax']))
+  ggplot2::coord_sf( xlim = c(sfx[['xmin']], sfx['xmax'])
+                     ,ylim = c(sfx[['ymin']], sfx['ymax']))
 
 }
 # areas from bbx ---------------------------------------------------------------

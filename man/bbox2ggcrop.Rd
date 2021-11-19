@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapping-helpers.R
 \name{bbox2ggcrop}
 \alias{bbox2ggcrop}
-\title{bbox.to.ggcrop}
+\title{bbox2ggcrop}
 \usage{
 bbox2ggcrop(sfx, crs = 4326)
 }
