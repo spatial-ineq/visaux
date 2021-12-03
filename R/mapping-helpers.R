@@ -190,18 +190,22 @@ dot.map.template <- function(dots, bbx = NULL, group.col = "group"
 #' @param sfx bbox or sf object to get background for
 #' @param maptype passed onto `ggmap::get_stamenmap`. 'toner-background' and
 #'   'toner-lines' are good options for basic black/white background maps with major
-#'   features. 'Lines seems better for showing small streets and has less black on
-#'   it.
+#'   features. 'Lines' seems to emphasize small streets more and has less black on
+#'   it. 'Watercolor' is pretty but very colorful and bad for chloropleths. Could be
+#'   interesting for some other types of visuals.
 #'
 #' @export get.stamen.bkg
 get.stamen.bkg <- function(sfx
-                           ,maptype = 'toner-background'
+                           ,maptype = c('toner-background'
+                                        ,'toner-lines'
+                                        ,'watercolor')
                            ,zoom = 10
                            , ...) {
 
   # load ggmap
   require(ggmap)
 
+  maptype <- maptype[1]
 
   # turn sf to bbox if needed
   if(! 'bbox' %in% class(sfx)) {

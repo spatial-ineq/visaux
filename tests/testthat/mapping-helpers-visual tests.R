@@ -114,6 +114,8 @@ pc
 library(ggmap)
 cts <- cts %>% st_transform(4326)
 stm <- visaux::get.stamen.bkg(cts)
+stmw <- visaux::get.stamen.bkg(cts
+                               ,maptype = 'watercolor')
 
 ggmap(stm) +
   geom_sf(data = cts
@@ -122,5 +124,14 @@ ggmap(stm) +
           ,inherit.aes = F
           ,alpha = .6) +
   scale_fill_viridis_c()
+
+ggmap(stmw) +
+  geom_sf(data = cts
+          ,aes(fill = pop)
+          ,color = NA
+          ,inherit.aes = F
+          ,alpha = .6) +
+  scale_fill_viridis_c(option = 'C')
+
 
 cts %>% mapview::mapview(zcol = 'pop')
