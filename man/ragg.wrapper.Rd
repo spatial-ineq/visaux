@@ -15,7 +15,7 @@ ragg.wrapper(
 )
 }
 \arguments{
-\item{fn}{filename to save to. If NULL, will just saved to i.e., \verb{-1.png},
+\item{fn}{filename to save to; exclude extension. If NULL, will just saved to i.e., \verb{-1.png},
 incrementing if other plots exist}
 
 \item{plot}{to save}

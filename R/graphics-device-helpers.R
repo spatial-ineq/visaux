@@ -3,7 +3,7 @@
 #' Wraps `ragg::agg_png` to save a plot as .png. An alternative to ggsave. See
 #' https://www.tidyverse.org/blog/2019/07/ragg-0-1-0/ for pkg intro.
 #'
-#' @param fn filename to save to. If NULL, will just saved to i.e., `-1.png`,
+#' @param fn filename to save to; exclude extension. If NULL, will just saved to i.e., `-1.png`,
 #'   incrementing if other plots exist
 #' @param plot to save
 #' @param sv.dir save directory. Defaults to `visuals/` subdirectory w/in project
@@ -30,13 +30,13 @@ ragg.wrapper <- function(fn = NULL
                                   , pattern = '-[0-9]*\\.png')
 
     nm <- stringr::str_extract(extant.defaults
-                               ,'[0-9]*')
+                               ,'[0-9]+')
     if(length(nm) == 0)
       nm <- 0
 
     nm <- max(as.numeric(nm)) + 1
 
-    fn <- glue::glue('-{nm}.png')
+    fn <- glue::glue('-{nm}')
   }
 
   path <- paste0(sv.dir
