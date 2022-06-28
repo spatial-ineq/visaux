@@ -247,6 +247,32 @@ bbox2ggcrop <- function(sfx, crs = 4326) {
                      ,ylim = c(sfx[['ymin']], sfx['ymax']))
 
 }
+
+
+# palettes ----------------------------------------------------------------
+
+#' n.categories.discrete.palette
+#'
+#' It's possible to run out of colors when visualizing with a large number of
+#' discrete categories. This wraps the steps to interpolote a palette across
+#' your number of categories, so variations of the colors are re-used. Helpful
+#'
+#' It returns a ggplot2 layer, by default for a `fill` aesthetic
+#'
+#' @examples
+#' x <- factor(rnorm(30))
+#' scale_fill_manual(values = n.categories.discrete.palette(length(x)))
+#'
+#' @export n.categories.discrete.palette
+n.categories.discrete.palette <- function(
+    ncats
+    ,base.pal = RColorBrewer::brewer.pal(6, 'Dark2')
+    ) {
+
+  sample( colorRampPalette(base.pal)(ncats) )
+
+}
+
 # areas from bbx ---------------------------------------------------------------
 
 # when I'm interested in creating a plot and limiting bounds using coord_sf, or
