@@ -18,6 +18,7 @@ your number of categories, so variations of the colors are re-used. Helpful
 It returns a ggplot2 layer, by default for a \code{fill} aesthetic
 }
 \examples{
+library(ggplot2)
 x <- factor(rnorm(30))
 scale_fill_manual(values = n.categories.discrete.palette(length(x)))
 

@@ -260,6 +260,7 @@ bbox2ggcrop <- function(sfx, crs = 4326) {
 #' It returns a ggplot2 layer, by default for a `fill` aesthetic
 #'
 #' @examples
+#' library(ggplot2)
 #' x <- factor(rnorm(30))
 #' scale_fill_manual(values = n.categories.discrete.palette(length(x)))
 #'
