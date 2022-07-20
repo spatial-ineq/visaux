@@ -4,7 +4,12 @@
 \alias{bbox2ggcrop}
 \title{bbox2ggcrop}
 \usage{
-bbox2ggcrop(sfx, crs = 4326)
+bbox2ggcrop(sfx, crs = 4326, clip = "on")
+}
+\arguments{
+\item{sfx}{bbox or sf object}
+
+\item{clip}{passed onto \code{ggplot2::coord_sf}}
 }
 \description{
 Wraps \code{coord_sf}, which can be used to crop a map made in ggplot. Uses an sf object
