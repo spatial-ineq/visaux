@@ -12,12 +12,14 @@
 #' @param ptile percentile at which to cap `x`
 #'
 #' @export cap.at.quantile
-cap.at.quantile <- function(x, ptile = .95) {
+cap.at.quantile <- function(x, ptile = .95, na.rm = T) {
 
-  if_else(x >= quantile(x, probs = ptile)
-          ,quantile(x, probs = ptile)
-          ,x
-          )
+  dplyr::if_else(x >= quantile(x, probs = ptile
+                               ,na.rm = na.rm)
+                 ,quantile(x, probs = ptile
+                           , na.rm = na.rm)
+                 ,x
+  )
 
 }
 
