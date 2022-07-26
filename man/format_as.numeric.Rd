@@ -2,7 +2,7 @@
 % Please edit documentation in R/binning-and-formatting.R
 \name{format_as.numeric}
 \alias{format_as.numeric}
-\title{format_as.numeric}
+\title{formated2numeric}
 \usage{
 format_as.numeric(x)
 }
