@@ -4,7 +4,7 @@
 \alias{cap.at.quantile}
 \title{cap.at.quantile}
 \usage{
-cap.at.quantile(x, ptile = 0.95)
+cap.at.quantile(x, ptile = 0.95, na.rm = T)
 }
 \arguments{
 \item{x}{values}

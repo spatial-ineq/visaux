@@ -20,7 +20,6 @@ cap.at.quantile <- function(x, ptile = .95, na.rm = T) {
                            , na.rm = na.rm)
                  ,x
   )
-
 }
 
 

@@ -277,6 +277,19 @@ n.categories.discrete.palette <- function(
 
 }
 
+
+# conversions -------------------------------------------------------------
+
+#' sqm2acre
+#'
+#' Conversion factor for square meters to acres
+#'
+#' @export sqm2acre
+sqm2acre <- function() {
+  sqm2acre <- 1e6 / 247.105
+}
+
+
 # areas from bbx ---------------------------------------------------------------
 
 # when I'm interested in creating a plot and limiting bounds using coord_sf, or
