@@ -215,7 +215,7 @@ get.stamen.bkg <- function(sfx
     sfx <- sfx %>% st_bbox()
   }
 
-  sttm <- ggmap::get_stamenmap(
+  sttm <- ggmap::get_stadiamap(
     bbox = c(left = sfx[['xmin']],
              bottom = sfx[['ymin']],
              right = sfx[['xmax']],
