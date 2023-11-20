@@ -196,9 +196,9 @@ dot.map.template <- function(dots, bbx = NULL, group.col = "group"
 #'
 #' @export get.stamen.bkg
 get.stamen.bkg <- function(sfx
-                           ,maptype = c('toner-background'
-                                        ,'toner-lines'
-                                        ,'watercolor')
+                           ,maptype = c('stamen_toner_background'
+                                        ,'stamen_toner_lines'
+                                        ,'stamen_watercolor')
                            ,zoom = 10
                            , ...) {
 
